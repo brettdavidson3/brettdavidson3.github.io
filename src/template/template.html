@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Brett Davidson</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{{rootPath}}}css/index.css">
+</head>
+<body>
+	<div id="main">
+		<div id="header">
+			<img id="header-image" src="{{{rootPath}}}img/header.png">
+			<span id="title-text">Brett Davidson</span>
+			<div id="menu">
+				<div class="tab{{#workSelected}} selected{{/workSelected}}">
+					{{#workSelected}}Work{{/workSelected}}
+					{{^workSelected}}<a href="{{{rootPath}}}index.html">Work</a>{{/workSelected}}
+				</div>
+				<div class="tab{{#playSelected}} selected{{/playSelected}}">
+					{{#playSelected}}Play{{/playSelected}}
+					{{^playSelected}}<a href="{{{rootPath}}}play/index.html">Play</a>{{/playSelected}}
+				</div>
+				<div class="tab{{#aboutSelected}} selected{{/aboutSelected}}">
+					{{#aboutSelected}}About{{/aboutSelected}}
+					{{^aboutSelected}}<a href="{{{rootPath}}}about/index.html">About</a>{{/aboutSelected}}
+				</div>
+			</div>
+		</div>
+		<div id="content">
+			{{{content}}}
+		</div>
+	</div>
+</body>
+</html>

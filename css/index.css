@@ -1,0 +1,73 @@
+body {
+	background-color: #EEEEEE;
+}
+
+#main {
+	margin: 8px auto;
+	max-width: 1280px;
+	border: 2px solid #BBBBBB;
+	box-shadow: -3px 3px 10px #c7c5c5;
+	background-color: white;
+}
+
+#header {
+	position: relative;
+}
+
+#title-text {
+	font-family: Courier;
+    font-weight: bold;
+    font-size: 32px;
+    color: #36b6ff;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+
+#header-image {
+	border-bottom: 2px solid #BBBBBB;
+	display: block;
+	width: 100%;
+}
+
+#menu {
+	position: absolute;
+	left: 10px;
+	bottom: 0px;
+	width: 100%;
+}
+
+#menu div.tab {
+	background-color: #BBBBBB;
+	color: #FFFFFF;
+	width: 25%;
+    max-width: 100px;
+    min-width: 65px;
+	float: left;
+	font-family: Courier;
+    font-size: 24px;
+    padding: 5px 10px;
+    background: linear-gradient(to right, #444444, #555555);
+    opacity: 0.95;
+}
+
+#menu div.tab.selected {
+    background: linear-gradient(to right, #000000, #111111);
+}
+
+#menu div.tab a {
+	color: white;
+    text-decoration-line: inherit;
+    display: block;
+}
+
+#menu div.tab a:hover {
+	color: #36b6ff;
+}
+
+#content {
+	min-height: 450px;
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+}

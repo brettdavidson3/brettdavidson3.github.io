@@ -1,0 +1,12 @@
+{
+  "name": "brettdavidson3.github.io",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "fs-extra": "^1.0.0",
+    "lodash": "^4.17.4",
+    "mustache": "^2.3.0",
+    "recursive-readdir": "^2.2.1",
+    "showdown": "^1.7.1"
+  }
+}
