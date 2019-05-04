@@ -5,53 +5,69 @@ var Mustache = require('mustache');
 var Showdown  = require('showdown'),
     Converter = new Showdown.Converter();
 
-function generateFile(markdownFullPath) {
+function generateFile(srcFileFullPath) {
+	var srcFileParsedPath = path.parse(srcFileFullPath);
+
+	if (srcFileParsedPath.ext === '.md') {
+		generateHtmlFromMarkdown(srcFileFullPath, srcFileParsedPath);
+	} else {
+		copyFileToDestDirectory(srcFileFullPath, srcFileParsedPath);
+	}	
+}
+
+function copyFileToDestDirectory(srcFileFullPath, srcFileParsedPath) {
+	var destRelativePath = getDestRelativePath(srcFileParsedPath);
+	var destFullPath = getDestFullPath(destRelativePath, srcFileParsedPath, srcFileParsedPath.ext);
+	fs.ensureDirSync(path.parse(destFullPath).dir);
+	fs.copySync(srcFileFullPath, destFullPath);
+}
+
+function generateHtmlFromMarkdown(srcFileFullPath, srcFileParsedPath) {
 	var templateFullPath = path.resolve(__dirname, 'src/template/template.html');
-	var markDownParsedPath = path.parse(markdownFullPath);
-	var outputRelativePath = getOutputRelativePath(markDownParsedPath);
-	var outputFullPath = getOutputFullPath(outputRelativePath, markDownParsedPath);
-	var activeLinkName = getActiveLinkName(outputRelativePath);
+	var destRelativePath = getDestRelativePath(srcFileParsedPath);
+	var destFullPath = getDestFullPath(destRelativePath, srcFileParsedPath, '.html');
+	var activeLinkName = getActiveLinkName(destRelativePath);
 	
 	var convertedMarkdown;
 
-	var markdownContent = fs.readFileSync(markdownFullPath, 'utf8')
+	var markdownContent = fs.readFileSync(srcFileFullPath, 'utf8')
 	var convertedMarkdown = Converter.makeHtml(markdownContent);
 	var templateContent = fs.readFileSync(templateFullPath, 'utf8');
 	var generatedPage = Mustache.render(templateContent, {
 		workSelected:  activeLinkName === 'work',
 		playSelected:  activeLinkName === 'play',
 		aboutSelected: activeLinkName === 'about',
-		rootPath: getRootRelativePath(outputRelativePath),
+		rootPath: getRootRelativePath(destRelativePath),
 		content: convertedMarkdown
 	});
 
-	fs.ensureDirSync(path.parse(outputFullPath).dir);
-	fs.writeFileSync(outputFullPath, generatedPage);
-};
-
-function getOutputRelativePath(markDownParsedPath) {
-	var pagesRelativePath = path.resolve(__dirname, 'src/pages');
-	return outputRelativePath = path.relative(pagesRelativePath, markDownParsedPath.dir);	
+	fs.ensureDirSync(path.parse(destFullPath).dir);
+	fs.writeFileSync(destFullPath, generatedPage);
 }
 
-function getOutputFullPath(outputRelativePath, markDownParsedPath) {
+function getDestRelativePath(srcFileParsedPath) {
+	var pagesRelativePath = path.resolve(__dirname, 'src/pages');
+	return destRelativePath = path.relative(pagesRelativePath, srcFileParsedPath.dir);	
+}
+
+function getDestFullPath(destRelativePath, srcFileParsedPath, extension) {
 	return path.resolve(
 		__dirname, 
-		outputRelativePath,
-		markDownParsedPath.name + '.html'
+		destRelativePath,
+		srcFileParsedPath.name + extension
 	);
 }
 
-function getActiveLinkName(outputRelativePath) {
-	return outputRelativePath.split('/')[0] || 'work';
+function getActiveLinkName(destRelativePath) {
+	return destRelativePath.split('/')[0] || 'work';
 }
 
-function getRootRelativePath(outputRelativePath) {
-	if (!outputRelativePath) {
+function getRootRelativePath(destRelativePath) {
+	if (!destRelativePath) {
 		return '';
 	}
 
-	var tokens = outputRelativePath.split('/');	
+	var tokens = destRelativePath.split('/');	
 	return _.times(tokens.length, _.constant('../')).join('');
 }
 

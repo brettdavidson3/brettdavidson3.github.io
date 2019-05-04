@@ -2,6 +2,7 @@ var generateFile = require('./generateFile');
 var recursive = require("recursive-readdir");
 var _ = require('lodash');
 var fs = require('fs-extra');
+var path = require('path');
 
 fs.removeSync(__dirname + '/about');
 fs.removeSync(__dirname + '/work');
@@ -13,6 +14,7 @@ recursive(__dirname + '/src/pages', function (err, files) {
 	}
 
 	_.each(files, function(file) {
+		var parsedPath = path.parse(file);
 		generateFile(file);
 		process.stdout.write('.');
 	});

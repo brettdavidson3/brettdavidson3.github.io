@@ -1,5 +1,6 @@
 body {
 	background-color: #EEEEEE;
+	font-family: Verdana, sans-serif;
 }
 
 #main {
@@ -65,9 +66,12 @@ body {
 	color: #36b6ff;
 }
 
+.clear {
+	clear: both;
+}
+
 #content {
 	min-height: 450px;
-	width: 100%;
 	height: 100%;
 	padding: 20px;
 }
